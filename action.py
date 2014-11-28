@@ -1,18 +1,18 @@
-from actions import *
+from ambrosio.actions import credentials
 
-class Action:
+class Action(object):
 
     def __init__(self, message):
         pass
 
-    def help(self):
-        response = "You can ask for:\ncredentials <machine/domain>"
+    def help(self, message=None):
+        response = "You can ask for:\ncredentials <machine/domain>" if not message else message
         return response 
 
     def get_action(self, message):
         if str(message.split(" ")[0]) == "credentials":
             self.credentials_action = credentials.Credentials()
-            self.credentials_action.search_credential(message.replace(str(message.split(" ")[0]), ""))
+	    return self.credentials_action.kdb.get_passwords(message.replace(str(message.split(" ")[0]), ""))
         else:
             return self.help()
 

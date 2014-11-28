@@ -1,11 +1,8 @@
-from ...action import Action
-from utils.kdb import KDB
+#from ambrosio.action import *
+from ambrosio.utils.kdb import *
 
-class Credentials(Action):
+#class Credentials(Action):
+class Credentials:
 
     def __init__(self):
         self.kdb = KDB()
-        self.kdb.get_passwords()
-
-    def search_credential(self, credential):
-        self.kdb.get_password(credential)

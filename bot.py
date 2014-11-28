@@ -16,7 +16,7 @@ from optparse import OptionParser
 
 import sleekxmpp
 
-from action import Action
+from ambrosio.action import *
 
 
 # Python versions before 3.0 do not use UTF-8 encoding
@@ -87,13 +87,16 @@ class EchoBot(sleekxmpp.ClientXMPP):
     def analyze_message(self, body):
         response = Action(body)
         if str(body) == "help":
-            return response.help(body)
-            
+            return response.help()            
         else:
-            return response.get_action(body)
-
-    def search_credentials(self):
-        pass
+            res = response.get_action(body)
+            if type(res) is list:
+                if len(res) > 0:
+                    return ', '.join([str(x) for x in response.get_action(body)])
+                else:
+                    return "No matches available"
+            else:
+                return res
 
 
 
