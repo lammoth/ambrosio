@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 """
-    SleekXMPP: The Sleek XMPP Library
-    Copyright (C) 2010  Nathanael C. Fritz
-    This file is part of SleekXMPP.
+    Ambrosio: A XMPP bot to serve us
+    Copyright (C) 2014  Francisco Hidalgo
+    This file is part of Ambrosio.
 
     See the file LICENSE for copying permission.
 """
@@ -33,8 +33,8 @@ else:
 class EchoBot(sleekxmpp.ClientXMPP):
 
     """
-    A simple SleekXMPP bot that will echo messages it
-    receives, along with a short thank you message.
+    A simple SleekXMPP bot that will echo messages to
+    help you with some requests.
     """
 
     def __init__(self, jid, password):
@@ -85,9 +85,15 @@ class EchoBot(sleekxmpp.ClientXMPP):
             msg.reply(reply).send()
 
     def analyze_message(self, body):
+        """
+        Analyzes incoming message stanzas and assign the correct action.
+
+        Arguments:
+            body -- The received body message stanza.
+        """
         response = Action(body)
         if str(body) == "help":
-            return response.help()            
+            return response.help()
         else:
             res = response.get_action(body)
             if type(res) is list:
@@ -119,7 +125,13 @@ if __name__ == '__main__':
     optp.add_option("-j", "--jid", dest="jid",
                     help="JID to use")
     optp.add_option("-p", "--password", dest="password",
-                    help="password to use")
+                    help="Password to use")
+
+    # Server and port options.
+    optp.add_option("-s", "--server", dest="server",
+                    help="Server to use")
+    optp.add_option("-P", "--port", dest="port",
+                    help="Port to use")
 
     opts, args = optp.parse_args()
 
@@ -149,14 +161,7 @@ if __name__ == '__main__':
     # xmpp.ca_certs = "path/to/ca/cert"
 
     # Connect to the XMPP server and start processing XMPP stanzas.
-    if xmpp.connect(('89.140.11.71', 5222)):
-        # If you do not have the dnspython library installed, you will need
-        # to manually specify the name of the server if it does not match
-        # the one in the JID. For example, to use Google Talk you would
-        # need to use:
-        #
-        # if xmpp.connect(('talk.google.com', 5222)):
-        #     ...
+    if xmpp.connect((opts.server, opts.port)):
         xmpp.process(block=True)
         print("Done")
     else:
