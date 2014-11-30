@@ -5,15 +5,12 @@ A XMPP bot to serve us
 
 Ambrosio treats to serve us in the common daily tasks.
 
-To install it, you need (Debian based systems):
+To install it, you need (On Debian based systems):
 
 <pre>
 sudo apt-get install ejabberd
-<br />
 pip isntall pexpect
-<br />
 pip isntall sleekxmpp
-<br />
 pip isntall keepassx
 </pre>
 In order to use keepassx, we make some changes in order to work with it.
